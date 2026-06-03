@@ -38,6 +38,10 @@ public:
 		SizeType nonzeroes = sparse_.nonZeros();
 		os << buildMMFormatHeader() << "\n";
 		os << rows << " " << cols << " " << nonzeroes << "\n";
+
+        std::ios_base::fmtflags flags(os.flags());
+        os << std::fixed << std::setprecision(std::numeric_limits<double>::max_digits10);
+
 		for (SizeType i = 0; i < rows; ++i) {
 			SizeType start = sparse_.getRowPtr(i);
 			SizeType end   = sparse_.getRowPtr(i + 1);
@@ -48,6 +52,8 @@ public:
 				os << (i + 1) << " " << (col + 1) << " " << value << "\n";
 			}
 		}
+
+        os.flags(flags);
 	}
 
 	/*!
